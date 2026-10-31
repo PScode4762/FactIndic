@@ -1,0 +1,8 @@
+ENGLISH SUMMARIZATION - FACTINDIC
+========================================
+
+ORIGINAL ARTICLE:
+The Government of India has announced a comprehensive agricultural development initiative aimed at improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country. Agriculture remains a major source of livelihood for millions of Indian households, but farmers continue to face several challenges, including unpredictable rainfall, rising fertilizer costs, limited access to modern equipment, and fluctuating market prices. The new initiative aims to address these problems by providing financial assistance to eligible farmers, improving irrigation facilities, and expanding access to agricultural training programs.
+
+GENERATED SUMMARY:
+The Government of India has announced a comprehensive agricultural development initiative. Agriculture remains a major source of livelihood for millions of Indian households. Farmers continue to face several challenges, including unpredictable rainfall, rising fertilizer costs, limited access to modern equipment, and fluctuating market prices.

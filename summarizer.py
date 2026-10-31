@@ -7,11 +7,15 @@ Hindi:
     Pretrained ai4bharat/IndicBART-XLSum; no additional training.
 
 English:
-    Fine-tune ai4bharat/IndicBART on ILSUM English article-summary pairs.
+    Uses october-sd/IndicBART_new_2 from Hugging Face by default.
+    If outputs/indicbart-en exists, the locally fine-tuned model takes priority.
+    The community checkpoint's training dataset/language details are not documented,
+    so validate its English outputs before using it in research.
 
 Supported commands:
     python factindic_summarization.py hindi --text "हिंदी में समाचार लेख..."
-    python factindic_summarization.py english --model-path outputs/indicbart-en --text "English article..."
+    python factindic_summarization.py english --text "English article..."
+    python factindic_summarization.py english --model-path facebook/bart-large-cnn --text "English article..."
     python factindic_summarization.py train-en --train-csv Data/Raw/train.csv --validation-csv Data/Raw/val.csv
     python factindic_summarization.py evaluate --language hi --test-csv Data/Raw/hindi_test.csv
     python factindic_summarization.py evaluate --language en --model-path outputs/indicbart-en --test-csv Data/Raw/english_test.csv
@@ -47,9 +51,10 @@ from transformers import (
 # Configuration
 # ------------------------------------------------------------
 
-BASE_MODEL = "ai4bharat/IndicBART"
+BASE_MODEL = "facebook/bart-large-cnn"
 HINDI_MODEL = "ai4bharat/IndicBART-XLSum"
-DEFAULT_ENGLISH_OUTPUT = "outputs/indicbart-en"
+DEFAULT_ENGLISH_MODEL = "facebook/bart-large-cnn"
+DEFAULT_ENGLISH_OUTPUT = "outputs/bart-large-cnn"
 
 MAX_INPUT_LENGTH = 512
 MAX_TARGET_LENGTH = 128
@@ -180,8 +185,12 @@ def load_csv_records(
 # Tokenizer and model helpers
 # ------------------------------------------------------------
 
-def load_tokenizer(model_name):
-    """Load the SentencePiece-based tokenizer used by IndicBART."""
+def load_tokenizer(model_name, language="hi"):
+    """Load the appropriate tokenizer for the selected language/model."""
+    if language == "en":
+        from transformers import AutoTokenizer
+        return AutoTokenizer.from_pretrained(model_name)
+
     return AlbertTokenizer.from_pretrained(
         model_name,
         do_lower_case=False,
@@ -222,10 +231,14 @@ def configure_model_language(model, tokenizer, language):
 
 
 def load_summarization_model(model_name, language):
-    tokenizer = load_tokenizer(model_name)
+    tokenizer = load_tokenizer(model_name, language)
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
-    configure_model_language(model, tokenizer, language)
+    # BART uses its own standard tokenizer and generation configuration.
+    is_bart_english = language == "en"
+    model.factindic_bart_english = is_bart_english
+    if language == "hi":
+        configure_model_language(model, tokenizer, language)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
@@ -263,47 +276,68 @@ def summarize_text(
             f"Unsupported language: {language}. Use 'en' or 'hi'."
         )
 
-    # Keep the correct language token on the encoder input.
-    language_token = LANGUAGE_TOKENS[language]
-    formatted_input = f"{text} </s> {language_token}"
-
-    encoded = tokenizer(
-        formatted_input,
-        add_special_tokens=False,
-        max_length=max_input_length,
-        truncation=True,
-        return_tensors="pt",
+    is_bart_english = (
+        language == "en"
+        and getattr(model, "factindic_bart_english", False)
     )
+
+    if is_bart_english:
+        # BART expects plain English text; its tokenizer adds model-specific tokens.
+        encoded = tokenizer(
+            text,
+            max_length=max_input_length,
+            truncation=True,
+            return_tensors="pt",
+        )
+    else:
+        # IndicBART-XLSum input convention for Hindi.
+        language_token = LANGUAGE_TOKENS[language]
+        formatted_input = f"{text} </s> {language_token}"
+        encoded = tokenizer(
+            formatted_input,
+            add_special_tokens=False,
+            max_length=max_input_length,
+            truncation=True,
+            return_tensors="pt",
+        )
 
     encoded = {
         key: value.to(device)
         for key, value in encoded.items()
     }
 
-    # IndicBART-XLSum uses <2en> as its decoder start token,
-    # including when generating Hindi summaries.
-    decoder_start_id = tokenizer._convert_token_to_id_with_added_voc(
-        "<2en>"
-    )
-    bos_id = tokenizer._convert_token_to_id_with_added_voc("<s>")
-    eos_id = tokenizer._convert_token_to_id_with_added_voc("</s>")
-    pad_id = tokenizer._convert_token_to_id_with_added_voc("<pad>")
-
     with torch.inference_mode():
-        generated = model.generate(
-            input_ids=encoded["input_ids"],
-            attention_mask=encoded["attention_mask"],
-            use_cache=True,
-            num_beams=num_beams,
-            max_length=max_new_tokens,
-            min_length=5,
-            early_stopping=True,
-            no_repeat_ngram_size=3,
-            pad_token_id=pad_id,
-            bos_token_id=bos_id,
-            eos_token_id=eos_id,
-            decoder_start_token_id=decoder_start_id,
-        )
+        generation_kwargs = {
+            "input_ids": encoded["input_ids"],
+            "attention_mask": encoded.get("attention_mask"),
+            "use_cache": True,
+            "num_beams": num_beams,
+            "max_new_tokens": max_new_tokens,
+            "no_repeat_ngram_size": 3,
+        }
+
+        if not is_bart_english:
+            # IndicBART-XLSum convention: <2en> starts the decoder.
+            decoder_start_id = tokenizer._convert_token_to_id_with_added_voc("<2en>")
+            bos_id = tokenizer._convert_token_to_id_with_added_voc("<s>")
+            eos_id = tokenizer._convert_token_to_id_with_added_voc("</s>")
+            pad_id = tokenizer._convert_token_to_id_with_added_voc("<pad>")
+            generation_kwargs.update({
+                "min_length": 5,
+                "early_stopping": True,
+                "pad_token_id": pad_id,
+                "bos_token_id": bos_id,
+                "eos_token_id": eos_id,
+                "decoder_start_token_id": decoder_start_id,
+            })
+        else:
+            generation_kwargs.update({
+                "min_new_tokens": 5,
+                "length_penalty": 2.0,
+                "early_stopping": True,
+            })
+
+        generated = model.generate(**generation_kwargs)
 
     summary = tokenizer.decode(
         generated[0],
@@ -348,85 +382,76 @@ def run_hindi_inference(args):
     subprocess.Popen(["notepad.exe", str(output_file.resolve())])
 
 
-def run_english_inference(args):
-    model_path = args.model_path
+def resolve_english_model(model_path):
+    """Use a local BART fine-tune when present; otherwise use BART-large-CNN."""
+    if Path(model_path).is_dir():
+        return str(Path(model_path))
 
-    if not Path(model_path).is_dir():
-        raise FileNotFoundError(
-            f"Fine-tuned English model not found: {model_path}\n"
-            "Train the English model first using the train-en command."
+    if model_path == DEFAULT_ENGLISH_OUTPUT:
+        print(
+            f"Local English model not found at '{model_path}'.\n"
+            f"Using pretrained Hugging Face model: {DEFAULT_ENGLISH_MODEL}"
         )
+        return DEFAULT_ENGLISH_MODEL
 
-    tokenizer, model, device = load_summarization_model(
-        model_path, "en"
-    )
+    if "/" in model_path and not Path(model_path).exists():
+        return model_path
+
+    raise FileNotFoundError(f"English model path not found: {model_path}")
+
+
+def run_english_inference(args):
+    model_name = resolve_english_model(args.model_path)
+    tokenizer, model, device = load_summarization_model(model_name, "en")
 
     summary = summarize_text(
-        args.text,
-        tokenizer,
-        model,
-        device,
-        language="en",
-        max_new_tokens=args.max_new_tokens,
-        num_beams=args.num_beams,
+        args.text, tokenizer, model, device, language="en",
+        max_new_tokens=args.max_new_tokens, num_beams=args.num_beams,
     )
 
     print("\nEnglish summary:\n")
     print(summary)
+
+    output_file = Path("english_summary.txt")
+    output_file.write_text(
+        "ENGLISH SUMMARIZATION - FACTINDIC\n"
+        + "=" * 40
+        + "\n\nORIGINAL ARTICLE:\n" + args.text
+        + "\n\nGENERATED SUMMARY:\n" + summary + "\n",
+        encoding="utf-8",
+    )
+    print(f"\nSummary saved to: {output_file.resolve()}")
+    if __import__("os").name == "nt":
+        subprocess.Popen(["notepad.exe", str(output_file.resolve())])
 
 
 # ------------------------------------------------------------
 # English fine-tuning dataset
 # ------------------------------------------------------------
 
-class IndicBARTSummarizationDataset(Dataset):
-    """
-    Dataset for fine-tuning IndicBART on English article-summary pairs.
+class EnglishSummarizationDataset(Dataset):
+    """Plain-text article/summary dataset for BART fine-tuning."""
 
-    Input:  article </s> <2en>
-    Target: <2en> summary </s>
-    """
-
-    def __init__(
-        self,
-        records,
-        tokenizer,
-        language="en",
-        max_input_length=MAX_INPUT_LENGTH,
-        max_target_length=MAX_TARGET_LENGTH,
-    ):
+    def __init__(self, records, tokenizer, max_input_length=MAX_INPUT_LENGTH,
+                 max_target_length=MAX_TARGET_LENGTH):
         self.records = records
         self.tokenizer = tokenizer
-        self.language = language
         self.max_input_length = max_input_length
         self.max_target_length = max_target_length
-        self.language_token = LANGUAGE_TOKENS[language]
 
     def __len__(self):
         return len(self.records)
 
     def __getitem__(self, index):
         record = self.records[index]
-        article = normalize_text(record["article"])
-        summary = normalize_text(record["summary"])
-
-        source_text = f"{article} </s> {self.language_token}"
-        target_text = f"{self.language_token} {summary} </s>"
-
         source = self.tokenizer(
-            source_text,
-            add_special_tokens=False,
-            max_length=self.max_input_length,
-            truncation=True,
+            normalize_text(record["article"]),
+            max_length=self.max_input_length, truncation=True,
         )
-
         target = self.tokenizer(
-            target_text,
-            add_special_tokens=False,
-            max_length=self.max_target_length,
-            truncation=True,
+            text_target=normalize_text(record["summary"]),
+            max_length=self.max_target_length, truncation=True,
         )
-
         return {
             "input_ids": source["input_ids"],
             "attention_mask": source["attention_mask"],
@@ -451,26 +476,15 @@ def train_english_model(args):
         args.summary_column,
     )
 
-    print("\nLoading base IndicBART for English fine-tuning...")
-    tokenizer = load_tokenizer(BASE_MODEL)
+    print(f"\nLoading {BASE_MODEL} for English fine-tuning...")
+    tokenizer = load_tokenizer(BASE_MODEL, "en")
     model = AutoModelForSeq2SeqLM.from_pretrained(BASE_MODEL)
 
-    configure_model_language(model, tokenizer, "en")
-
-    train_dataset = IndicBARTSummarizationDataset(
-        train_records,
-        tokenizer,
-        language="en",
-        max_input_length=args.max_input_length,
-        max_target_length=args.max_target_length,
+    train_dataset = EnglishSummarizationDataset(
+        train_records, tokenizer, args.max_input_length, args.max_target_length
     )
-
-    validation_dataset = IndicBARTSummarizationDataset(
-        validation_records,
-        tokenizer,
-        language="en",
-        max_input_length=args.max_input_length,
-        max_target_length=args.max_target_length,
+    validation_dataset = EnglishSummarizationDataset(
+        validation_records, tokenizer, args.max_input_length, args.max_target_length
     )
 
     collator = DataCollatorForSeq2Seq(
@@ -555,12 +569,7 @@ def evaluate_model(args):
     if args.language == "hi":
         model_name = HINDI_MODEL
     else:
-        model_name = args.model_path
-
-        if not Path(model_name).is_dir():
-            raise FileNotFoundError(
-                f"Fine-tuned English model not found: {model_name}"
-            )
+        model_name = resolve_english_model(args.model_path)
 
     records = load_csv_records(
         args.test_csv,
@@ -677,7 +686,7 @@ def build_parser():
     # English inference
     english_parser = subparsers.add_parser(
         "english",
-        help="Summarize English text using the fine-tuned model.",
+        help="Summarize English text using a local model or the default Hugging Face checkpoint.",
     )
     english_parser.add_argument(
         "--model-path", default=DEFAULT_ENGLISH_OUTPUT
@@ -690,7 +699,7 @@ def build_parser():
     # English training
     train_parser = subparsers.add_parser(
         "train-en",
-        help="Fine-tune base IndicBART on ILSUM English data.",
+        help="Fine-tune BART-large-CNN on English article-summary data.",
     )
     train_parser.add_argument("--train-csv", required=True)
     train_parser.add_argument("--validation-csv", required=True)
