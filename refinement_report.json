@@ -1,0 +1,834 @@
+{
+  "language": "en",
+  "generation_models": [
+    "llama3.2:3b",
+    "qwen2.5:3b",
+    "gemma3:4b",
+    "mistral:7b"
+  ],
+  "evaluation_method": "Each of the four models generates one candidate. Each candidate is evaluated by the other three models; claim labels are aggregated by majority vote and numeric scores by arithmetic mean.",
+  "original_summary": "The Government of India has announced a comprehensive agricultural development initiative. Agriculture remains a major source of livelihood for millions of Indian households. Farmers continue to face several challenges, including unpredictable rainfall, rising fertilizer costs, limited access to modern equipment, and fluctuating market prices.",
+  "reference_summary_provided": false,
+  "claims": [
+    "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+    "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs."
+  ],
+  "best_summary": "The Government of India has announced a comprehensive agricultural development initiative aimed at improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country. The new initiative aims to address farmers' challenges by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs. Agriculture remains a major source of livelihood for millions of Indian households, facing issues such as unpredictable rainfall, rising fertilizer costs, limited access to modern equipment, and fluctuating market prices.",
+  "best_candidate_number": 2,
+  "best_generation_model": "qwen2.5:3b",
+  "best_score": 99.0,
+  "best_score_components": {
+    "factuality_points_40": 40.0,
+    "weighted_claim_coverage_points_25": 25.0,
+    "relevance_points_10": 9,
+    "coherence_points_10": 10,
+    "low_hallucination_points_10": 10.0,
+    "low_contradiction_points_5": 5.0
+  },
+  "selection_method": "40% factuality + 25% weighted claim coverage + 10% relevance + 10% coherence + 10% hallucination avoidance + 5% contradiction avoidance",
+  "best_evaluation": {
+    "claim_results": [
+      {
+        "claim_number": 1,
+        "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+        "status": "SUPPORTED",
+        "votes": {
+          "SUPPORTED": 2,
+          "PARTIALLY_SUPPORTED": 1,
+          "OMITTED": 0,
+          "UNSUPPORTED": 0,
+          "CONTRADICTED": 0
+        },
+        "explanation": "The candidate accurately reflects the first claim from the source passage."
+      },
+      {
+        "claim_number": 2,
+        "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+        "status": "SUPPORTED",
+        "votes": {
+          "SUPPORTED": 3,
+          "PARTIALLY_SUPPORTED": 0,
+          "OMITTED": 0,
+          "UNSUPPORTED": 0,
+          "CONTRADICTED": 0
+        },
+        "explanation": "The passage states that the new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs."
+      }
+    ],
+    "unsupported_additions": [],
+    "contradictions": [],
+    "relevance_score": 9,
+    "coherence_score": 10,
+    "overall_factuality_score": 10,
+    "brief_reason": "Peer-evaluation aggregate. Candidate accurately expresses the main points of the passage, but introduces minor inaccuracies and rephrases some sentences. | The candidate accurately summarizes the provided source passage, containing no unsupported information or contradictions. | The candidate accurately represents the information in the source passage, with minor differences in phrasing.",
+    "peer_evaluations": [
+      {
+        "claim_results": [
+          {
+            "claim_number": 1,
+            "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+            "status": "PARTIALLY_SUPPORTED",
+            "explanation": "The passage states that the Government of India has announced a comprehensive agricultural development initiative, but it does not explicitly state the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices."
+          },
+          {
+            "claim_number": 2,
+            "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+            "status": "SUPPORTED",
+            "explanation": "The passage states that the new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs."
+          }
+        ],
+        "unsupported_additions": [],
+        "contradictions": [],
+        "relevance_score": 8,
+        "coherence_score": 9,
+        "overall_factuality_score": 9,
+        "brief_reason": "Candidate accurately expresses the main points of the passage, but introduces minor inaccuracies and rephrases some sentences."
+      },
+      {
+        "claim_results": [
+          {
+            "claim_number": 1,
+            "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+            "status": "SUPPORTED",
+            "explanation": "The candidate accurately reflects the first claim from the source passage."
+          },
+          {
+            "claim_number": 2,
+            "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+            "status": "SUPPORTED",
+            "explanation": "The candidate accurately reflects the second claim from the source passage."
+          }
+        ],
+        "unsupported_additions": [],
+        "contradictions": [],
+        "relevance_score": 10,
+        "coherence_score": 10,
+        "overall_factuality_score": 10,
+        "brief_reason": "The candidate accurately summarizes the provided source passage, containing no unsupported information or contradictions."
+      },
+      {
+        "claim_results": [
+          {
+            "claim_number": 1,
+            "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+            "status": "SUPPORTED",
+            "explanation": "The claim accurately represents the information in the source passage."
+          },
+          {
+            "claim_number": 2,
+            "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+            "status": "SUPPORTED",
+            "explanation": "The claim accurately represents the information in the source passage, although it could be more specific about the problems the initiative aims to address."
+          }
+        ],
+        "unsupported_additions": [],
+        "contradictions": [],
+        "relevance_score": 10,
+        "coherence_score": 10,
+        "overall_factuality_score": 10,
+        "brief_reason": "The candidate accurately represents the information in the source passage, with minor differences in phrasing."
+      }
+    ],
+    "aggregation_method": {
+      "claim_labels": "majority vote across the other three models",
+      "numeric_scores": "arithmetic mean across the other three models",
+      "unsupported_additions_and_contradictions": "deduplicated union"
+    }
+  },
+  "best_project_metrics": {
+    "summary_quality": null,
+    "factuality": {
+      "evaluator_factuality": {
+        "total_claims": 2,
+        "label_counts": {
+          "CONTRADICTED": 0,
+          "PARTIALLY_SUPPORTED": 0,
+          "SUPPORTED": 2,
+          "UNSUPPORTED": 0
+        },
+        "support_rate": 1.0,
+        "partial_support_rate": 0.0,
+        "hallucination_rate": 0.0,
+        "contradiction_rate": 0.0
+      },
+      "source_claim_counts": {
+        "SUPPORTED": 2,
+        "PARTIALLY_SUPPORTED": 0,
+        "OMITTED": 0,
+        "UNSUPPORTED": 0,
+        "CONTRADICTED": 0
+      },
+      "total_source_claims": 2,
+      "expressed_claims": 2,
+      "omission_rate": 0.0,
+      "claim_coverage_rate": 1.0,
+      "weighted_claim_coverage_rate": 1.0
+    },
+    "evidence_retrieval": null,
+    "reference_summary_used": false
+  },
+  "number_of_candidates_generated": 4,
+  "candidates": [
+    {
+      "candidate_number": 2,
+      "generation_model": "qwen2.5:3b",
+      "evaluated_by_models": [
+        "llama3.2:3b",
+        "gemma3:4b",
+        "mistral:7b"
+      ],
+      "summary": "The Government of India has announced a comprehensive agricultural development initiative aimed at improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country. The new initiative aims to address farmers' challenges by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs. Agriculture remains a major source of livelihood for millions of Indian households, facing issues such as unpredictable rainfall, rising fertilizer costs, limited access to modern equipment, and fluctuating market prices.",
+      "evaluation": {
+        "claim_results": [
+          {
+            "claim_number": 1,
+            "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+            "status": "SUPPORTED",
+            "votes": {
+              "SUPPORTED": 2,
+              "PARTIALLY_SUPPORTED": 1,
+              "OMITTED": 0,
+              "UNSUPPORTED": 0,
+              "CONTRADICTED": 0
+            },
+            "explanation": "The candidate accurately reflects the first claim from the source passage."
+          },
+          {
+            "claim_number": 2,
+            "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+            "status": "SUPPORTED",
+            "votes": {
+              "SUPPORTED": 3,
+              "PARTIALLY_SUPPORTED": 0,
+              "OMITTED": 0,
+              "UNSUPPORTED": 0,
+              "CONTRADICTED": 0
+            },
+            "explanation": "The passage states that the new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs."
+          }
+        ],
+        "unsupported_additions": [],
+        "contradictions": [],
+        "relevance_score": 9,
+        "coherence_score": 10,
+        "overall_factuality_score": 10,
+        "brief_reason": "Peer-evaluation aggregate. Candidate accurately expresses the main points of the passage, but introduces minor inaccuracies and rephrases some sentences. | The candidate accurately summarizes the provided source passage, containing no unsupported information or contradictions. | The candidate accurately represents the information in the source passage, with minor differences in phrasing.",
+        "peer_evaluations": [
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "PARTIALLY_SUPPORTED",
+                "explanation": "The passage states that the Government of India has announced a comprehensive agricultural development initiative, but it does not explicitly state the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices."
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "SUPPORTED",
+                "explanation": "The passage states that the new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 8,
+            "coherence_score": 9,
+            "overall_factuality_score": 9,
+            "brief_reason": "Candidate accurately expresses the main points of the passage, but introduces minor inaccuracies and rephrases some sentences."
+          },
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "SUPPORTED",
+                "explanation": "The candidate accurately reflects the first claim from the source passage."
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "SUPPORTED",
+                "explanation": "The candidate accurately reflects the second claim from the source passage."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 10,
+            "coherence_score": 10,
+            "overall_factuality_score": 10,
+            "brief_reason": "The candidate accurately summarizes the provided source passage, containing no unsupported information or contradictions."
+          },
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "SUPPORTED",
+                "explanation": "The claim accurately represents the information in the source passage."
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "SUPPORTED",
+                "explanation": "The claim accurately represents the information in the source passage, although it could be more specific about the problems the initiative aims to address."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 10,
+            "coherence_score": 10,
+            "overall_factuality_score": 10,
+            "brief_reason": "The candidate accurately represents the information in the source passage, with minor differences in phrasing."
+          }
+        ],
+        "aggregation_method": {
+          "claim_labels": "majority vote across the other three models",
+          "numeric_scores": "arithmetic mean across the other three models",
+          "unsupported_additions_and_contradictions": "deduplicated union"
+        }
+      },
+      "project_metrics": {
+        "summary_quality": null,
+        "factuality": {
+          "evaluator_factuality": {
+            "total_claims": 2,
+            "label_counts": {
+              "CONTRADICTED": 0,
+              "PARTIALLY_SUPPORTED": 0,
+              "SUPPORTED": 2,
+              "UNSUPPORTED": 0
+            },
+            "support_rate": 1.0,
+            "partial_support_rate": 0.0,
+            "hallucination_rate": 0.0,
+            "contradiction_rate": 0.0
+          },
+          "source_claim_counts": {
+            "SUPPORTED": 2,
+            "PARTIALLY_SUPPORTED": 0,
+            "OMITTED": 0,
+            "UNSUPPORTED": 0,
+            "CONTRADICTED": 0
+          },
+          "total_source_claims": 2,
+          "expressed_claims": 2,
+          "omission_rate": 0.0,
+          "claim_coverage_rate": 1.0,
+          "weighted_claim_coverage_rate": 1.0
+        },
+        "evidence_retrieval": null,
+        "reference_summary_used": false
+      },
+      "selection_score": {
+        "score_out_of_100": 99.0,
+        "score_components": {
+          "factuality_points_40": 40.0,
+          "weighted_claim_coverage_points_25": 25.0,
+          "relevance_points_10": 9,
+          "coherence_points_10": 10,
+          "low_hallucination_points_10": 10.0,
+          "low_contradiction_points_5": 5.0
+        },
+        "scoring_formula": "40% factuality + 25% weighted claim coverage + 10% relevance + 10% coherence + 10% hallucination avoidance + 5% contradiction avoidance"
+      }
+    },
+    {
+      "candidate_number": 3,
+      "generation_model": "gemma3:4b",
+      "evaluated_by_models": [
+        "llama3.2:3b",
+        "qwen2.5:3b",
+        "mistral:7b"
+      ],
+      "summary": "The Government of India has announced a comprehensive agricultural development initiative aimed at improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country. Farmers continue to face challenges including unpredictable rainfall, rising fertilizer costs, limited access to modern equipment, and fluctuating market prices. The initiative aims to address these problems by providing financial assistance to eligible farmers, improving irrigation facilities, and expanding access to agricultural training programs.",
+      "evaluation": {
+        "claim_results": [
+          {
+            "claim_number": 1,
+            "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+            "status": "SUPPORTED",
+            "votes": {
+              "SUPPORTED": 2,
+              "PARTIALLY_SUPPORTED": 1,
+              "OMITTED": 0,
+              "UNSUPPORTED": 0,
+              "CONTRADICTED": 0
+            },
+            "explanation": "The candidate accurately states the goals of the initiative and the problems faced by farmers, which are supported by the passage."
+          },
+          {
+            "claim_number": 2,
+            "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+            "status": "SUPPORTED",
+            "votes": {
+              "SUPPORTED": 3,
+              "PARTIALLY_SUPPORTED": 0,
+              "OMITTED": 0,
+              "UNSUPPORTED": 0,
+              "CONTRADICTED": 0
+            },
+            "explanation": "The passage states that the new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs."
+          }
+        ],
+        "unsupported_additions": [],
+        "contradictions": [],
+        "relevance_score": 9,
+        "coherence_score": 10,
+        "overall_factuality_score": 10,
+        "brief_reason": "Peer-evaluation aggregate. Candidate accurately represents the source passage, with minor omissions. | The candidate accurately represents both the goals and methods of the initiative as stated in the passage. | The candidate accurately and coherently represents the information in the source passage.",
+        "peer_evaluations": [
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "PARTIALLY_SUPPORTED",
+                "explanation": "The passage states that the Government of India has announced a comprehensive agricultural development initiative, but it does not explicitly state the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices."
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "SUPPORTED",
+                "explanation": "The passage states that the new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 8,
+            "coherence_score": 9,
+            "overall_factuality_score": 9,
+            "brief_reason": "Candidate accurately represents the source passage, with minor omissions."
+          },
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "SUPPORTED",
+                "explanation": "The candidate accurately states the goals of the initiative and the problems faced by farmers, which are supported by the passage."
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "SUPPORTED",
+                "explanation": "The candidate accurately states the methods the initiative aims to use to address the problems, which are supported by the passage."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 10,
+            "coherence_score": 10,
+            "overall_factuality_score": 10,
+            "brief_reason": "The candidate accurately represents both the goals and methods of the initiative as stated in the passage."
+          },
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "SUPPORTED",
+                "explanation": "The claim accurately represents the information in the source passage."
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "SUPPORTED",
+                "explanation": "The claim accurately represents the information in the source passage."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 10,
+            "coherence_score": 10,
+            "overall_factuality_score": 10,
+            "brief_reason": "The candidate accurately and coherently represents the information in the source passage."
+          }
+        ],
+        "aggregation_method": {
+          "claim_labels": "majority vote across the other three models",
+          "numeric_scores": "arithmetic mean across the other three models",
+          "unsupported_additions_and_contradictions": "deduplicated union"
+        }
+      },
+      "project_metrics": {
+        "summary_quality": null,
+        "factuality": {
+          "evaluator_factuality": {
+            "total_claims": 2,
+            "label_counts": {
+              "CONTRADICTED": 0,
+              "PARTIALLY_SUPPORTED": 0,
+              "SUPPORTED": 2,
+              "UNSUPPORTED": 0
+            },
+            "support_rate": 1.0,
+            "partial_support_rate": 0.0,
+            "hallucination_rate": 0.0,
+            "contradiction_rate": 0.0
+          },
+          "source_claim_counts": {
+            "SUPPORTED": 2,
+            "PARTIALLY_SUPPORTED": 0,
+            "OMITTED": 0,
+            "UNSUPPORTED": 0,
+            "CONTRADICTED": 0
+          },
+          "total_source_claims": 2,
+          "expressed_claims": 2,
+          "omission_rate": 0.0,
+          "claim_coverage_rate": 1.0,
+          "weighted_claim_coverage_rate": 1.0
+        },
+        "evidence_retrieval": null,
+        "reference_summary_used": false
+      },
+      "selection_score": {
+        "score_out_of_100": 99.0,
+        "score_components": {
+          "factuality_points_40": 40.0,
+          "weighted_claim_coverage_points_25": 25.0,
+          "relevance_points_10": 9,
+          "coherence_points_10": 10,
+          "low_hallucination_points_10": 10.0,
+          "low_contradiction_points_5": 5.0
+        },
+        "scoring_formula": "40% factuality + 25% weighted claim coverage + 10% relevance + 10% coherence + 10% hallucination avoidance + 5% contradiction avoidance"
+      }
+    },
+    {
+      "candidate_number": 4,
+      "generation_model": "mistral:7b",
+      "evaluated_by_models": [
+        "llama3.2:3b",
+        "qwen2.5:3b",
+        "gemma3:4b"
+      ],
+      "summary": "The Government of India has launched a comprehensive agricultural development initiative, targeting improvements in farmers' income, crop productivity, and the promotion of sustainable farming practices nationwide. The initiative aims to alleviate farmers' challenges, such as unpredictable rainfall, escalating fertilizer costs, limited access to modern equipment, and volatile market prices, by offering financial aid, enhancing irrigation facilities, and expanding access to agricultural training programs.",
+      "evaluation": {
+        "claim_results": [
+          {
+            "claim_number": 1,
+            "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+            "status": "SUPPORTED",
+            "votes": {
+              "SUPPORTED": 2,
+              "PARTIALLY_SUPPORTED": 1,
+              "OMITTED": 0,
+              "UNSUPPORTED": 0,
+              "CONTRADICTED": 0
+            },
+            "explanation": "The candidate accurately represents the passage's claim about the initiative's goals and objectives."
+          },
+          {
+            "claim_number": 2,
+            "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+            "status": "SUPPORTED",
+            "votes": {
+              "SUPPORTED": 3,
+              "PARTIALLY_SUPPORTED": 0,
+              "OMITTED": 0,
+              "UNSUPPORTED": 0,
+              "CONTRADICTED": 0
+            },
+            "explanation": "The passage states that the new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs. This claim is supported by the passage."
+          }
+        ],
+        "unsupported_additions": [],
+        "contradictions": [],
+        "relevance_score": 9,
+        "coherence_score": 10,
+        "overall_factuality_score": 10,
+        "brief_reason": "Peer-evaluation aggregate. Candidate partially supports the initiative's goals and methods, but omits specific details and adds some phrases not present in the passage. | Both claims from the source passage are accurately represented and supported by the candidate summary. | The candidate's summary accurately reflects and summarizes the information presented in the source passage without adding any unsupported details or contradictions.",
+        "peer_evaluations": [
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "PARTIALLY_SUPPORTED",
+                "explanation": "The passage states that the Government of India has announced a comprehensive agricultural development initiative, but it does not explicitly state the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices. The phrase 'across the country' suggests a nationwide focus, but the specific goals are not explicitly stated."
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "SUPPORTED",
+                "explanation": "The passage states that the new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs. This claim is supported by the passage."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 8,
+            "coherence_score": 9,
+            "overall_factuality_score": 9,
+            "brief_reason": "Candidate partially supports the initiative's goals and methods, but omits specific details and adds some phrases not present in the passage."
+          },
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "SUPPORTED",
+                "explanation": "The candidate accurately represents the passage's claim about the initiative's goals and objectives."
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "SUPPORTED",
+                "explanation": "The candidate accurately represents the passage's claim about the initiative's methods for addressing farmers' challenges."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 10,
+            "coherence_score": 10,
+            "overall_factuality_score": 10,
+            "brief_reason": "Both claims from the source passage are accurately represented and supported by the candidate summary."
+          },
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "SUPPORTED",
+                "explanation": "The candidate accurately reflects the stated goal of the initiative as described in the source passage."
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "SUPPORTED",
+                "explanation": "The candidate accurately reflects the proposed solutions to farmers' challenges as outlined in the source passage."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 10,
+            "coherence_score": 10,
+            "overall_factuality_score": 10,
+            "brief_reason": "The candidate's summary accurately reflects and summarizes the information presented in the source passage without adding any unsupported details or contradictions."
+          }
+        ],
+        "aggregation_method": {
+          "claim_labels": "majority vote across the other three models",
+          "numeric_scores": "arithmetic mean across the other three models",
+          "unsupported_additions_and_contradictions": "deduplicated union"
+        }
+      },
+      "project_metrics": {
+        "summary_quality": null,
+        "factuality": {
+          "evaluator_factuality": {
+            "total_claims": 2,
+            "label_counts": {
+              "CONTRADICTED": 0,
+              "PARTIALLY_SUPPORTED": 0,
+              "SUPPORTED": 2,
+              "UNSUPPORTED": 0
+            },
+            "support_rate": 1.0,
+            "partial_support_rate": 0.0,
+            "hallucination_rate": 0.0,
+            "contradiction_rate": 0.0
+          },
+          "source_claim_counts": {
+            "SUPPORTED": 2,
+            "PARTIALLY_SUPPORTED": 0,
+            "OMITTED": 0,
+            "UNSUPPORTED": 0,
+            "CONTRADICTED": 0
+          },
+          "total_source_claims": 2,
+          "expressed_claims": 2,
+          "omission_rate": 0.0,
+          "claim_coverage_rate": 1.0,
+          "weighted_claim_coverage_rate": 1.0
+        },
+        "evidence_retrieval": null,
+        "reference_summary_used": false
+      },
+      "selection_score": {
+        "score_out_of_100": 99.0,
+        "score_components": {
+          "factuality_points_40": 40.0,
+          "weighted_claim_coverage_points_25": 25.0,
+          "relevance_points_10": 9,
+          "coherence_points_10": 10,
+          "low_hallucination_points_10": 10.0,
+          "low_contradiction_points_5": 5.0
+        },
+        "scoring_formula": "40% factuality + 25% weighted claim coverage + 10% relevance + 10% coherence + 10% hallucination avoidance + 5% contradiction avoidance"
+      }
+    },
+    {
+      "candidate_number": 1,
+      "generation_model": "llama3.2:3b",
+      "evaluated_by_models": [
+        "qwen2.5:3b",
+        "gemma3:4b",
+        "mistral:7b"
+      ],
+      "summary": "The Government of India has announced a comprehensive agricultural development initiative to improve farmers' income and address challenges such as unpredictable rainfall, rising fertilizer costs, and limited access to modern equipment.",
+      "evaluation": {
+        "claim_results": [
+          {
+            "claim_number": 1,
+            "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+            "status": "SUPPORTED",
+            "votes": {
+              "SUPPORTED": 3,
+              "PARTIALLY_SUPPORTED": 0,
+              "OMITTED": 0,
+              "UNSUPPORTED": 0,
+              "CONTRADICTED": 0
+            },
+            "explanation": "The passage states 'The Government of India has announced a comprehensive agricultural development initiative aimed at improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.'"
+          },
+          {
+            "claim_number": 2,
+            "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+            "status": "SUPPORTED",
+            "votes": {
+              "SUPPORTED": 2,
+              "PARTIALLY_SUPPORTED": 1,
+              "OMITTED": 0,
+              "UNSUPPORTED": 0,
+              "CONTRADICTED": 0
+            },
+            "explanation": "The candidate correctly identifies the key components of the initiative: financial assistance, irrigation improvements, and agricultural training programs."
+          }
+        ],
+        "unsupported_additions": [],
+        "contradictions": [],
+        "relevance_score": 10,
+        "coherence_score": 9,
+        "overall_factuality_score": 9,
+        "brief_reason": "Peer-evaluation aggregate. The candidate accurately represents two claims from the passage, with one claim being partially supported due to the omission of 'improving irrigation facilities'. | The candidate accurately summarizes the information presented in the source passage. | The candidate accurately summarizes the information in the passage without adding or contradicting any facts.",
+        "peer_evaluations": [
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "SUPPORTED",
+                "explanation": "The passage states 'The Government of India has announced a comprehensive agricultural development initiative aimed at improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.'"
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "PARTIALLY_SUPPORTED",
+                "explanation": "The passage states 'The new initiative aims to address these problems by providing financial assistance to eligible farmers, improving irrigation facilities, and expanding access to agricultural training programs.' This claim is partially supported as it includes 'providing financial assistance' and 'expanding access to agricultural training programs', but not 'improving irrigation facilities'."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 10,
+            "coherence_score": 8,
+            "overall_factuality_score": 8,
+            "brief_reason": "The candidate accurately represents two claims from the passage, with one claim being partially supported due to the omission of 'improving irrigation facilities'."
+          },
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "SUPPORTED",
+                "explanation": "The candidate accurately reflects the stated goals of the initiative: improving farmers' income, increasing crop productivity, and promoting sustainable farming practices."
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "SUPPORTED",
+                "explanation": "The candidate correctly identifies the key components of the initiative: financial assistance, irrigation improvements, and agricultural training programs."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 10,
+            "coherence_score": 10,
+            "overall_factuality_score": 10,
+            "brief_reason": "The candidate accurately summarizes the information presented in the source passage."
+          },
+          {
+            "claim_results": [
+              {
+                "claim_number": 1,
+                "claim": "The Government of India has launched a comprehensive agricultural development initiative with the goal of improving farmers' income, increasing crop productivity, and promoting sustainable farming practices across the country.",
+                "status": "SUPPORTED",
+                "explanation": "The claim accurately represents the information in the passage."
+              },
+              {
+                "claim_number": 2,
+                "claim": "The new initiative aims to address the problems faced by farmers by providing financial assistance, improving irrigation facilities, and expanding access to agricultural training programs.",
+                "status": "SUPPORTED",
+                "explanation": "The claim accurately represents the goals of the initiative as stated in the passage."
+              }
+            ],
+            "unsupported_additions": [],
+            "contradictions": [],
+            "relevance_score": 10,
+            "coherence_score": 10,
+            "overall_factuality_score": 10,
+            "brief_reason": "The candidate accurately summarizes the information in the passage without adding or contradicting any facts."
+          }
+        ],
+        "aggregation_method": {
+          "claim_labels": "majority vote across the other three models",
+          "numeric_scores": "arithmetic mean across the other three models",
+          "unsupported_additions_and_contradictions": "deduplicated union"
+        }
+      },
+      "project_metrics": {
+        "summary_quality": null,
+        "factuality": {
+          "evaluator_factuality": {
+            "total_claims": 2,
+            "label_counts": {
+              "CONTRADICTED": 0,
+              "PARTIALLY_SUPPORTED": 0,
+              "SUPPORTED": 2,
+              "UNSUPPORTED": 0
+            },
+            "support_rate": 1.0,
+            "partial_support_rate": 0.0,
+            "hallucination_rate": 0.0,
+            "contradiction_rate": 0.0
+          },
+          "source_claim_counts": {
+            "SUPPORTED": 2,
+            "PARTIALLY_SUPPORTED": 0,
+            "OMITTED": 0,
+            "UNSUPPORTED": 0,
+            "CONTRADICTED": 0
+          },
+          "total_source_claims": 2,
+          "expressed_claims": 2,
+          "omission_rate": 0.0,
+          "claim_coverage_rate": 1.0,
+          "weighted_claim_coverage_rate": 1.0
+        },
+        "evidence_retrieval": null,
+        "reference_summary_used": false
+      },
+      "selection_score": {
+        "score_out_of_100": 95.0,
+        "score_components": {
+          "factuality_points_40": 36.0,
+          "weighted_claim_coverage_points_25": 25.0,
+          "relevance_points_10": 10,
+          "coherence_points_10": 9,
+          "low_hallucination_points_10": 10.0,
+          "low_contradiction_points_5": 5.0
+        },
+        "scoring_formula": "40% factuality + 25% weighted claim coverage + 10% relevance + 10% coherence + 10% hallucination avoidance + 5% contradiction avoidance"
+      }
+    }
+  ],
+  "metric_notes": {
+    "models": "Exactly four Ollama models are used; no fifth model is required.",
+    "peer_evaluation": "Each candidate is judged by the other three models, never by its own generator model.",
+    "aggregation": "Claim labels use majority vote; numeric evaluation scores use the mean of the three peer judgments.",
+    "reference_metrics": "ROUGE, BLEU and optional BERTScore are calculated only when a separate human/reference summary is supplied; they are not part of the selection score.",
+    "omitted_claims": "Omitted claims are tracked separately and are not counted as hallucinations.",
+    "recall_at_k": "Unavailable until actual relevant/retrieved evidence IDs are connected from the retriever.",
+    "research_caution": "Peer LLM judgments are model-based estimates, not ground truth. Manually audit a sample of claims and report agreement where possible."
+  }
+}
